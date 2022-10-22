@@ -1,0 +1,16 @@
+{
+  "name": "algorithms-and-data-structures",
+  "version": "1.0.0",
+  "description": "Repo where I practice Algorithms and Data Structures",
+  "main": "index.js",
+  "author": "Richard William <richard.wmbv@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.2.1",
+    "nodemon": "^2.0.20"
+  }
+}
