@@ -15,6 +15,7 @@ function findLongestSubstring(str){
   while(right < str.length) {
     // get new substring
     substring = str.slice(left, right);
+    // console.log('current substring', substring);
     const char = str[right];
     if (hashed.has(char)) {
       // clear characters until current character
@@ -35,8 +36,6 @@ function findLongestSubstring(str){
   }
 
   return max;
-}
+};
 
 module.exports = findLongestSubstring;
-
-findLongestSubstring('longestsubstring');

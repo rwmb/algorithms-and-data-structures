@@ -14,34 +14,35 @@ function searchBinary(arr, target) {
   return search(arr, 0, arr.length - 1, target);
 };
 
+// this is stupid because indexOf runs with linear time
+// which is stupid for sorted arrays
 function searchStupid(arr, target) {
   return arr.indexOf(target);
-}
+};
 
 module.exports = searchBinary;
 
 // start 5 + end 7 = 13 / 2 = mid 6.5 = 6
 // 5 5
 
+// const arr = [];
 
-const arr4 = [];
+// for(let i = 1; i <= 100000000; i++) {
+//   arr.push(i);
+// }
 
-for(let i = 1; i <= 100000000; i++) {
-  arr4.push(i);
-}
+// let start = performance.now();
 
-let start = performance.now();
+// searchStupid(arr, 100000000);
 
-searchStupid(arr4, 100000000);
+// let end = performance.now();
 
-let end = performance.now();
+// console.log('time using stupid', end - start);
 
-console.log('time using stupid', end - start);
+// start = performance.now();
 
-start = performance.now();
+// searchBinary(arr, 845932);
 
-searchBinary(arr4, 10000000);
+// end = performance.now();
 
-end = performance.now();
-
-console.log('time using binary', end - start);
+// console.log('time using binary', end - start);
