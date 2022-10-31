@@ -1,48 +1,39 @@
-function search(arr, start, end, target) {
-  let middle = Math.floor((start + end) / 2);
+// search with recursion
+function binarySearchWithRecursion(arr, start, end, target) {
+  const middle = Math.floor((start + end) / 2);
 
-  if (start > end) return null;
+  if (start > end) return null; // or -1
 
   if (arr[middle] === target) return middle;
 
-  if (arr[middle] > target) return search(arr, start, middle - 1, target);
+  if (arr[middle] > target) return binarySearchWithRecursion(arr, start, middle - 1, target);
 
-  return search(arr, middle + 1, end, target);
+  return binarySearchWithRecursion(arr, middle + 1, end, target);
 };
 
-function searchBinary(arr, target) {
-  return search(arr, 0, arr.length - 1, target);
+function searchBinaryWithRecursion(arr, target) {
+  return binarySearchWithRecursion(arr, 0, arr.length - 1, target);
 };
 
-// this is stupid because indexOf runs with linear time
-// which is stupid for sorted arrays
-function searchStupid(arr, target) {
-  return arr.indexOf(target);
+// search with for loop
+function binarySearchWithWhile(arr, val) {
+  let start = 0, end = arr.length - 1;
+
+  while (start <= end) {
+    const middle = Math.floor((start + end) / 2);
+
+    if (arr[middle] === val) return middle;
+
+    if (arr[middle] < val) start = middle + 1;
+
+    if (arr[middle] > val) end = middle - 1;
+  }
+
+  // in case not found
+  return -1;
+}
+
+module.exports = {
+  recursion: searchBinaryWithRecursion,
+  while: binarySearchWithWhile
 };
-
-module.exports = searchBinary;
-
-// start 5 + end 7 = 13 / 2 = mid 6.5 = 6
-// 5 5
-
-// const arr = [];
-
-// for(let i = 1; i <= 100000000; i++) {
-//   arr.push(i);
-// }
-
-// let start = performance.now();
-
-// searchStupid(arr, 100000000);
-
-// let end = performance.now();
-
-// console.log('time using stupid', end - start);
-
-// start = performance.now();
-
-// searchBinary(arr, 845932);
-
-// end = performance.now();
-
-// console.log('time using binary', end - start);
