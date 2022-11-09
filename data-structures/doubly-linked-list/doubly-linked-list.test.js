@@ -1,18 +1,21 @@
-const data = require('./singly-linked-list');
+const data = require('./doubly-linked-list');
 
-describe('SinglyLinkedList', () => {
+describe('DoublyLinkedList', () => {
 
   test('nodes', async () => {
+    const zero = new data.Node('zero');
     const first = new data.Node('first');
     const second = new data.Node('second');
+    first.prev = zero;
     first.next = second;
   
     expect(first.val).toBe('first');
     expect(first.next.val).toBe('second');
+    expect(first.prev.val).toBe('zero');
   });
   
   test('push', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
     expect(list.head).toBe(null);
     expect(list.tail).toBe(null);
     expect(list.length).toBe(0);
@@ -29,6 +32,7 @@ describe('SinglyLinkedList', () => {
     expect(list.head).toBe(first);
     expect(list.tail).toBe(second);
     expect(list.tail.val).toBe('second');
+    expect(list.tail.prev.val).toBe('first');
     expect(list.length).toBe(2);
   
     const third = list.push('third');
@@ -37,11 +41,12 @@ describe('SinglyLinkedList', () => {
     expect(list.head.next).toBe(second);
     expect(list.tail).toBe(third);
     expect(list.tail.val).toBe('third');
+    expect(list.get(1).prev.val).toBe('first');
     expect(list.length).toBe(3);
   });
   
   test('pop', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
     const push = list.push('test');
     const pop = list.pop();
   
@@ -66,6 +71,7 @@ describe('SinglyLinkedList', () => {
     const popped = list.pop();
   
     expect(list.head).toBe(first);
+    expect(list.tail.prev.val).toBe('second');
     expect(list.tail).toBe(third);
     expect(popped).toBe(fourth);
     expect(list.head.next).toBe(second);
@@ -73,7 +79,7 @@ describe('SinglyLinkedList', () => {
   });
   
   test('shift', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
   
     const undefinedShifted = list.shift();
     expect(undefinedShifted).toBe(undefined);
@@ -102,6 +108,7 @@ describe('SinglyLinkedList', () => {
     expect(list.length).toBe(3);
     expect(shifted3).toBe(second);
     expect(list.head).toBe(third);
+    expect(list.head.prev).toBe(null);
     expect(list.head.next).toBe(fourth);
     expect(list.head.next.next).toBe(fifth);
     expect(list.tail).toBe(fifth);
@@ -114,7 +121,8 @@ describe('SinglyLinkedList', () => {
   });
   
   test('unshift', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
+
     const first = list.unshift('first');
   
     expect(list.head).toBe(first);
@@ -122,13 +130,15 @@ describe('SinglyLinkedList', () => {
     expect(list.head.next).toBe(null);
   
     const second = list.unshift('second');
+
     expect(list.head).toBe(second);
     expect(list.tail).toBe(first);
     expect(list.head.next).toBe(first);
+    expect(list.tail.prev).toBe(second);
   });
   
   test('get', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
   
     list.push('0');
     list.push('1');
@@ -143,7 +153,7 @@ describe('SinglyLinkedList', () => {
   });
   
   test('set', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
   
     const first = list.push('first');
     const second = list.push('second');
@@ -161,7 +171,7 @@ describe('SinglyLinkedList', () => {
   });
 
   test('insert', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
 
     list.push('first');
     list.push('second');
@@ -185,11 +195,13 @@ describe('SinglyLinkedList', () => {
     expect(list.head.next.val).toBe('first');
     expect(list.get(3).val).toBe('middle');
     expect(list.get(3).next.val).toBe('fourth');
+    expect(list.get(3).prev.val).toBe('second');
     expect(list.tail.val).toBe('tail');
+    expect(list.tail.prev.val).toBe('fourth');
   });
 
   test('remove', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
 
     list.push('first');
     list.push('second');
@@ -202,6 +214,7 @@ describe('SinglyLinkedList', () => {
     const result = list.remove(1);
 
     expect(result.val).toBe('second');
+    expect(list.get(1).prev.val).toBe('first');
     expect(list.length).toBe(3);
 
     list.remove(0);
@@ -214,7 +227,7 @@ describe('SinglyLinkedList', () => {
   });
 
   test('reverse', async () => {
-    const list = new data.SinglyLinkedList();
+    const list = new data.DoublyLinkedList();
   
     list.push('0');
     list.push('1');
@@ -223,6 +236,7 @@ describe('SinglyLinkedList', () => {
     expect(list.head.val).toBe('1');
     expect(list.get(0).val).toBe('1');
     expect(list.tail.val).toBe('0');
+    expect(list.tail.prev.val).toBe('1');
     expect(list.get(1).val).toBe('0');
 
     list.reverse();
@@ -233,6 +247,7 @@ describe('SinglyLinkedList', () => {
     expect(list.get(0).val).toBe('2');
     expect(list.get(1).val).toBe('1');
     expect(list.tail.val).toBe('0');
+    expect(list.tail.prev.val).toBe('1');
     expect(list.get(2).val).toBe('0');
 
     list.reverse();
