@@ -44,6 +44,20 @@ class Queue {
 
     return removed;
   }
+
+  toArray() {
+    return this.toArrayHelper(this.first);
+  }
+
+  toArrayHelper(node) {
+    const array = [];
+    if(!node)
+      return [];
+
+    array.push(node.val);
+
+    return [...array, ...this.toArrayHelper(node.next)];
+  }
 }
 
 module.exports = Queue;

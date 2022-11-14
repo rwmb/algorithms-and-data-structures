@@ -4,24 +4,30 @@ Array.prototype.swap = function (i, j) {
   this[j] = temp;
 };
 
-// Heaps are represented by an array, even though they can be classified
-// as a Tree, although they do not need a special structure to be built
-class MaxBinaryHeap {
+class Node {
+  constructor(val, priority) {
+    this.val = val;
+    this.priority = priority;
+  }
+}
+
+class PriorityQueueMin {
   constructor() {
     this.values = [];
   }
 
   // The way to insert a new value is to put it at the end of the list
   // and bubble up to the correct spot using the formula to find the parent
-  insert(val) {
-    this.values.push(val);
+  enqueue(val, priority) {
+    const node = new Node(val, priority);
+    this.values.push(node);
     return this.bubbleUp();
   }
 
   // The way to remove the top value is to replace it with the
   // last entry of the array/heap, and bubble down replacing the
-  // biggest values until it sets on the correct place
-  remove() {
+  // smallest values until it sets on the correct place
+  dequeue() {
     if (this.values.length === 0) return null;
 
     this.values.swap(this.values.length - 1, 0);
@@ -36,7 +42,8 @@ class MaxBinaryHeap {
   bubbleUp(index = this.values.length - 1) {
     const parentIndex = Math.floor((index - 1) / 2);
 
-    if (index === 0 || this.values[index] <= this.values[parentIndex]) return index;
+    if (index === 0 || this.values[index].priority >= this.values[parentIndex].priority)
+      return index;
 
     this.values.swap(index, parentIndex);
     return this.bubbleUp(parentIndex);
@@ -46,19 +53,19 @@ class MaxBinaryHeap {
     const leftChildIndex = index * 2 + 1;
     const rightChildIndex = index * 2 + 2;
 
-    const leftChild = leftChildIndex < this.values.length
-      ? this.values[leftChildIndex] : Infinity;
-    const rightChild = rightChildIndex < this.values.length
-      ? this.values[rightChildIndex] : Infinity;
+    const leftChildPriority = this.values[leftChildIndex]?.priority || Infinity;
+    const rightChildPriority = this.values[rightChildIndex]?.priority || Infinity;
 
-    const correctPlace = this.values[index] > leftChild && this.values[index] > rightChild;
+    const correctPlace = this.values[index].priority < leftChildPriority
+      && this.values[index].priority < rightChildPriority;
+
     if (correctPlace) return;
 
-    let biggestChildIndex = leftChild > rightChild ? leftChildIndex : rightChildIndex;
-    this.values.swap(index, biggestChildIndex);
+    let smallestChildIndex = leftChildPriority < rightChildPriority ? leftChildIndex : rightChildIndex;
+    this.values.swap(index, smallestChildIndex);
 
-    return this.bubbleDown(biggestChildIndex);
+    return this.bubbleDown(smallestChildIndex);
   }
 }
 
-module.exports = MaxBinaryHeap;
+module.exports = PriorityQueueMin;

@@ -13,7 +13,6 @@ function flatten(arr, arrHelper){
   // remove that entry and return the next flattened result
   
   const newArr = arrHelper || [];
-  console.log('array being used', arr, 'newArr', newArr);
 
   if (arr.length === 0) return arrHelper;
   if (typeof arr[0] === 'number')
